@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phantom 2.0 — Solana UX Redesign | Superteam Bounty Submission</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            phantom: {
+              bg: '#0F0E17',
+              surface: '#1A192B',
+              card: '#222038',
+              purple: '#AB9FF2',
+              purpleDark: '#7868E6',
+              accent: '#14F195',
+              danger: '#FF5C5C',
+              warning: '#FFA84A',
+              muted: '#8E8BA7'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0F0E17;
+      color: #E6E4F0;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .glass {
+      background: rgba(26, 25, 43, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(171, 159, 242, 0.12);
+    }
+    .glass-active {
+      background: rgba(34, 32, 56, 0.9);
+      border: 1px solid rgba(171, 159, 242, 0.35);
+      box-shadow: 0 0 25px rgba(171, 159, 242, 0.15);
+    }
+    .glow-solana {
+      box-shadow: 0 0 35px rgba(20, 241, 149, 0.2);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #2E2B4A;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-phantom-purple selection:text-phantom-bg">
+
+  <!-- TOP BANNER -->
+  <header class="border-b border-phantom-surface glass sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-phantom-purpleDark to-phantom-purple flex items-center justify-center shadow-lg shadow-phantom-purple/20">
+          <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-lg tracking-tight text-white">Phantom 2.0</span>
+            <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-phantom-purple/15 text-phantom-purple border border-phantom-purple/25">Design Bounty</span>
+          </div>
+          <p class="text-xs text-phantom-muted">Submission for Superteam India • Open Design Bounty ($1,500 USDC)</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="text-right hidden sm:block">
+          <p class="text-xs text-phantom-muted">Designer & Engineer</p>
+          <p class="text-xs font-semibold text-phantom-accent mono">@alejandrobrcca-sys</p>
+        </div>
+        <a href="https://earn.superteam.fun/listings/bounties/redesign-your-favourite-app-on-solana" target="_blank" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-phantom-card hover:bg-phantom-surface border border-phantom-purple/30 text-white transition flex items-center gap-1.5">
+          <span>Superteam Listing</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-phantom-surface border border-phantom-purple/20 text-xs text-phantom-purple mb-4">
+        <span class="w-2 h-2 rounded-full bg-phantom-accent animate-pulse"></span>
+        Interactive Case Study & Live Prototype
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+        Redesigning <span class="bg-gradient-to-r from-phantom-purple to-phantom-accent bg-clip-text text-transparent">Phantom Wallet</span> for Everyday Users
+      </h1>
+      <p class="text-base sm:text-lg text-phantom-muted leading-relaxed">
+        Solana is blistering fast, but wallet UX hasn't kept up. We tackled the 3 biggest friction points in Phantom: 
+        <strong>Cross-Chain Swapping anxiety</strong>, <strong>Malicious Token spam</strong>, and <strong>Opaque Staking economics</strong>.
+      </p>
+    </div>
+
+    <!-- NAVIGATION TABS FOR THE 3 REDESIGNED FEATURES -->
+    <div class="flex justify-center mb-10">
+      <div class="p-1.5 rounded-2xl bg-phantom-surface border border-phantom-card flex flex-wrap gap-2 max-w-2xl w-full justify-center">
+        <button onclick="switchTab('swap')" id="tab-swap" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 bg-phantom-card text-white border border-phantom-purple/40 shadow-md">
+          <svg class="w-4 h-4 text-phantom-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+          1. Cross-Chain Swap & Bridge
+        </button>
+        <button onclick="switchTab('shield')" id="tab-shield" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 text-phantom-muted hover:text-white">
+          <svg class="w-4 h-4 text-phantom-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+          2. Phantom Aegis (Spam Shield)
+        </button>
+        <button onclick="switchTab('staking')" id="tab-staking" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 text-phantom-muted hover:text-white">
+          <svg class="w-4 h-4 text-phantom-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          3. Staking Intelligence
+        </button>
+      </div>
+    </div>
+
+    <!-- FEATURE 1: CROSS-CHAIN SWAP & BRIDGE -->
+    <div id="content-swap" class="tab-content block">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- LEFT: Problem & Design Rationale -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="p-6 rounded-2xl glass space-y-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 text-xs font-bold rounded-lg bg-red-500/10 text-red-400 border border-red-500/20">The Pain Point</span>
+              <span class="text-xs text-phantom-muted">Why users panic</span>
+            </div>
+            <h3 class="text-xl font-bold text-white">"Where is my money? Did the bridge eat it?"</h3>
+            <p class="text-sm text-phantom-muted leading-relaxed">
+              When bridging from Base/Ethereum to Solana in current Phantom, users see a generic spinning wheel for 3–8 minutes. There is no route hop visibility, no live status of the relayer, and no guaranteed price impact protection.
+            </p>
+            <div class="p-3.5 rounded-xl bg-red-950/20 border border-red-900/30 text-xs text-red-300">
+              ❌ <strong>Current UX Flaw:</strong> Hides intermediate bridge state. Users frequently close the extension thinking their transaction failed, resulting in lost funds or double-swapping.
+            </div>
+          </div>
+
+          <div class="p-6 rounded-2xl glass space-y-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 text-xs font-bold rounded-lg bg-phantom-accent/10 text-phantom-accent border border-phantom-accent/20">Our Solution</span>
+              <span class="text-xs text-phantom-muted">The Phantom 2.0 Flow</span>
+            </div>
+            <h3 class="text-xl font-bold text-white">Transparent 3-Stage Pipeline with Live Relayer Proof</h3>
+            <ul class="space-y-3 text-sm text-phantom-muted">
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-phantom-accent/20 text-phantom-accent flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✓</span>
+                <span><strong>Live Multi-Hop Tracker:</strong> Visible progression from Source Confirmation → Bridge Relayer → Solana Mint.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-phantom-accent/20 text-phantom-accent flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✓</span>
+                <span><strong>Automated Fallback Vault:</strong> If the bridge relayer stalls, a 1-click refund returns funds to the source address automatically.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-phantom-accent/20 text-phantom-accent flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✓</span>
+                <span><strong>Dynamic Slippage Breakdown:</strong> Shows exact Jupiter / Mayan route liquidity depth instead of a static 1%.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- RIGHT: Interactive Prototype Mockup -->
+        <div class="lg:col-span-7 flex justify-center">
+          <div class="w-full max-w-md p-6 rounded-3xl bg-phantom-surface border border-phantom-purple/20 shadow-2xl relative">
+            
+            <!-- WALLET HEADER -->
+            <div class="flex justify-between items-center pb-4 mb-4 border-b border-phantom-card">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-full bg-phantom-purple/20 flex items-center justify-center">
+                  <span class="text-xs font-bold text-phantom-purple">@A</span>
+                </div>
+                <div>
+                  <span class="text-xs font-semibold text-white block">Main Wallet</span>
+                  <span class="text-[10px] text-phantom-muted mono">DJu5...1E3Ka7</span>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 text-[10px] font-semibold rounded bg-phantom-accent/15 text-phantom-accent border border-phantom-accent/30">Solana Mainnet</span>
+            </div>
+
+            <!-- INTERACTIVE SWAP CARD -->
+            <div class="space-y-3">
+              <div class="p-3.5 rounded-2xl bg-phantom-card border border-phantom-surface">
+                <div class="flex justify-between text-xs text-phantom-muted mb-1">
+                  <span>You Pay (Source)</span>
+                  <span>Balance: 250.00 USDC</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <input type="number" id="swap-amount-in" value="100" oninput="updateSwapOutput()" class="bg-transparent text-xl font-bold text-white focus:outline-none w-32 mono">
+                  <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-phantom-surface border border-phantom-purple/20 text-xs font-semibold text-white">
+                    <span class="w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center text-[10px] font-bold">B</span>
+                    <span>Base USDC</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- MIDDLE CONNECTOR -->
+              <div class="flex justify-center -my-1 z-10 relative">
+                <div class="w-8 h-8 rounded-full bg-phantom-surface border border-phantom-purple/30 flex items-center justify-center shadow-lg text-phantom-purple">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-phantom-card border border-phantom-surface">
+                <div class="flex justify-between text-xs text-phantom-muted mb-1">
+                  <span>You Receive (Destination)</span>
+                  <span>Balance: 1.45 SOL</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span id="swap-amount-out" class="text-xl font-bold text-phantom-accent mono">0.6452 SOL</span>
+                  <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-phantom-surface border border-phantom-purple/20 text-xs font-semibold text-white">
+                    <span class="w-4 h-4 rounded-full bg-gradient-to-tr from-purple-500 to-emerald-400 flex items-center justify-center text-[10px] font-bold">S</span>
+                    <span>Solana SOL</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- LIVE ROUTE & SLIPPAGE ACCORDION -->
+              <div class="p-3.5 rounded-2xl bg-phantom-bg border border-phantom-purple/15 text-xs space-y-2.5">
+                <div class="flex justify-between text-phantom-muted">
+                  <span>Best Route</span>
+                  <span class="text-white font-medium">Mayan Bridge ➔ Jupiter v6</span>
+                </div>
+                <div class="flex justify-between text-phantom-muted">
+                  <span>Est. Settlement Time</span>
+                  <span class="text-phantom-accent font-medium flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-phantom-accent animate-ping"></span>
+                    ~45 seconds
+                  </span>
+                </div>
+                <div class="flex justify-between text-phantom-muted">
+                  <span>Network Gas Saved</span>
+                  <span class="text-emerald-400 font-medium">$4.82 (via Solana zero-mempool)</span>
+                </div>
+                
+                <!-- LIVE TIMELINE PREVIEW -->
+                <div class="pt-2 border-t border-phantom-card/60">
+                  <div class="flex items-center justify-between text-[11px] mb-1 font-semibold text-white">
+                    <span>1. Lock on Base</span>
+                    <span>2. Mayan Relayer</span>
+                    <span>3. SOL Delivered</span>
+                  </div>
+                  <div class="w-full bg-phantom-card h-1.5 rounded-full overflow-hidden flex">
+                    <div class="bg-phantom-purple h-full w-1/3"></div>
+                    <div class="bg-phantom-accent h-full w-1/3 animate-pulse"></div>
+                    <div class="bg-phantom-surface h-full w-1/3"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SUBMIT BUTTON -->
+              <button onclick="simulateSwapAction()" id="btn-swap-action" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-phantom-purpleDark to-phantom-purple hover:opacity-95 text-white font-bold text-sm shadow-xl shadow-phantom-purple/20 transition transform active:scale-[0.99]">
+                Execute Bridge & Swap
+              </button>
+              <div id="swap-status-message" class="text-center text-xs text-phantom-accent font-medium hidden">
+                ✨ Simulation confirmed on Devnet! Hash: 4vKz...9Qm1
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FEATURE 2: PHANTOM AEGIS (SPAM SHIELD) -->
+    <div id="content-shield" class="tab-content hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- LEFT: Problem & Design Rationale -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="p-6 rounded-2xl glass space-y-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 text-xs font-bold rounded-lg bg-red-500/10 text-red-400 border border-red-500/20">The Pain Point</span>
+              <span class="text-xs text-phantom-muted">Scams & Wallet Drainers</span>
+            </div>
+            <h3 class="text-xl font-bold text-white">Airdrop Traps & Silent Phishing Tokens</h3>
+            <p class="text-sm text-phantom-muted leading-relaxed">
+              Every day, Solana users receive fake tokens (`CLAIM-1000-BONK.io`, `USDC-VOUCHER.xyz`) with URLs in their metadata. In the current Phantom UX, users either click the malicious link or accidentally approve dangerous token authority delegations.
+            </p>
+            <div class="p-3.5 rounded-xl bg-red-950/20 border border-red-900/30 text-xs text-red-300">
+              ❌ <strong>Current UX Flaw:</strong> Phantom only offers a passive "Hide" button. It does not inform users what malicious instruction the contract was preparing to execute.
+            </div>
+          </div>
+
+          <div class="p-6 rounded-2xl glass space-y-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 text-xs font-bold rounded-lg bg-phantom-warning/10 text-phantom-warning border border-phantom-warning/20">Our Solution</span>
+              <span class="text-xs text-phantom-muted">Phantom Aegis Quarantine</span>
+            </div>
+            <h3 class="text-xl font-bold text-white">Proactive Risk Scoring & Safe Rent Burner</h3>
+            <ul class="space-y-3 text-sm text-phantom-muted">
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-phantom-warning/20 text-phantom-warning flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">🛡️</span>
+                <span><strong>AI Risk Scoring (0–100):</strong> Analyzes mint authority, freeze authority, and domain reputation in real time.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-phantom-warning/20 text-phantom-warning flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">🔥</span>
+                <span><strong>Reclaim Solana Rent:</strong> Instead of leaving scam accounts in the wallet, 1-click "Burn & Reclaim Rent" recovers ~0.002 SOL for the user!</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-phantom-warning/20 text-phantom-warning flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">🔒</span>
+                <span><strong>Transaction Sandboxing:</strong> Completely blocks simulation approval if a drainer bytecode pattern is matched.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- RIGHT: Interactive Aegis Mockup -->
+        <div class="lg:col-span-7 flex justify-center">
+          <div class="w-full max-w-md p-6 rounded-3xl bg-phantom-surface border border-phantom-warning/30 shadow-2xl relative">
+            
+            <div class="flex justify-between items-center pb-4 mb-4 border-b border-phantom-card">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-full bg-phantom-warning/20 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-phantom-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+                <span class="text-xs font-bold text-white uppercase tracking-wider">Phantom Aegis Quarantine</span>
+              </div>
+              <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-red-500/20 text-red-400 border border-red-500/40">RISK: 96 / 100</span>
+            </div>
+
+            <div class="space-y-4">
+              <div class="p-4 rounded-2xl bg-red-950/30 border border-red-500/30 space-y-3">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-red-500/20 text-red-400 flex items-center justify-center font-bold text-sm">
+                      ⚠️
+                    </div>
+                    <div>
+                      <p class="text-sm font-bold text-white">50,000 $USDC-VOUCHER.cc</p>
+                      <p class="text-xs text-red-400 mono">Malicious Drainer Identified</p>
+                    </div>
+                  </div>
+                  <span class="text-xs text-phantom-muted">Just now</span>
+                </div>
+
+                <p class="text-xs text-phantom-muted leading-relaxed">
+                  <strong>Why it's blocked:</strong> The smart contract contains an unauthorized <code>SetAuthority</code> hook that attempts to drain your SOL balance upon interaction.
+                </p>
+
+                <div class="p-2.5 rounded-lg bg-phantom-bg/80 text-[11px] mono text-phantom-muted space-y-1">
+                  <div class="flex justify-between"><span>Mint:</span> <span class="text-white">9xKP...8uTr</span></div>
+                  <div class="flex justify-between"><span>Authority:</span> <span class="text-red-400">UNVERIFIED REVOKE</span></div>
+                  <div class="flex justify-between"><span>Reclaimable Rent:</span> <span class="text-phantom-accent">+0.002039 SOL</span></div>
+                </div>
+              </div>
+
+              <!-- ACTIONS -->
+              <div class="grid grid-cols-2 gap-3">
+                <button onclick="burnSpamToken()" id="btn-burn-spam" class="py-3 rounded-xl bg-phantom-accent hover:opacity-90 text-phantom-bg font-bold text-xs transition shadow-lg flex items-center justify-center gap-1.5">
+                  <span>🔥 Burn & Reclaim Rent</span>
+                </button>
+                <button class="py-3 rounded-xl bg-phantom-card hover:bg-phantom-surface border border-phantom-card text-white font-medium text-xs transition">
+                  Whistelist Token
+                </button>
+              </div>
+
+              <div id="burn-feedback" class="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/30 text-xs text-emerald-400 text-center hidden">
+                ✅ Spam burned! <strong>+0.002039 SOL</strong> rent deposited back to your balance.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FEATURE 3: STAKING INTELLIGENCE -->
+    <div id="content-staking" class="tab-content hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- LEFT: Problem & Design Rationale -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="p-6 rounded-2xl glass space-y-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 text-xs font-bold rounded-lg bg-red-500/10 text-red-400 border border-red-500/20">The Pain Point</span>
+              <span class="text-xs text-phantom-muted">Opaque Staking</span>
+            </div>
+            <h3 class="text-xl font-bold text-white">Where do staking rewards actually come from?</h3>
+            <p class="text-sm text-phantom-muted leading-relaxed">
+              In existing Solana wallets, staking is a simple button with a generic "7.2% APY". Users never see when the epoch resets, whether their chosen validator went delinquent, or if the validator silently raised commission fees from 0% to 10%.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-2xl glass space-y-4">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 text-xs font-bold rounded-lg bg-phantom-purple/10 text-phantom-purple border border-phantom-purple/20">Our Solution</span>
+              <span class="text-xs text-phantom-muted">Epoch Intelligence Hub</span>
+            </div>
+            <h3 class="text-xl font-bold text-white">Real-Time Epoch Wheel & Commission Guardians</h3>
+            <ul class="space-y-3 text-sm text-phantom-muted">
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-phantom-purple/20 text-phantom-purple flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">⚡</span>
+                <span><strong>Live Epoch Countdown Wheel:</strong> Real-time block progression showing exactly when accrued rewards will compound.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-phantom-purple/20 text-phantom-purple flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">🛡️</span>
+                <span><strong>Validator Commission Alerts:</strong> Immediate push notification if a validator alters their fee schedule.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-phantom-purple/20 text-phantom-purple flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">🌱</span>
+                <span><strong>Decentralization Score:</strong> Recommends top non-superminority validators to safeguard network health.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- RIGHT: Interactive Staking Mockup -->
+        <div class="lg:col-span-7 flex justify-center">
+          <div class="w-full max-w-md p-6 rounded-3xl bg-phantom-surface border border-phantom-purple/20 shadow-2xl space-y-5">
+            
+            <div class="flex justify-between items-center pb-3 border-b border-phantom-card">
+              <span class="text-xs font-bold text-white">Solana Staking Intelligence</span>
+              <span class="text-xs font-semibold text-phantom-accent mono">Epoch 714 (82% done)</span>
+            </div>
+
+            <!-- EPOCH RING CARD -->
+            <div class="p-4 rounded-2xl bg-phantom-card border border-phantom-purple/20 flex items-center gap-4">
+              <div class="relative w-16 h-16 flex items-center justify-center shrink-0">
+                <svg class="w-16 h-16 transform -rotate-90">
+                  <circle cx="32" cy="32" r="26" stroke="#222038" stroke-width="6" fill="transparent" />
+                  <circle cx="32" cy="32" r="26" stroke="#14F195" stroke-width="6" stroke-dasharray="163" stroke-dashoffset="30" stroke-linecap="round" fill="transparent" />
+                </svg>
+                <span class="absolute text-xs font-bold text-white mono">82%</span>
+              </div>
+              <div>
+                <p class="text-xs text-phantom-muted">Next Reward Distribution</p>
+                <p class="text-base font-bold text-white">In ~8 hours, 14 min</p>
+                <p class="text-[11px] text-phantom-accent">Auto-compounding enabled</p>
+              </div>
+            </div>
+
+            <!-- ACTIVE STAKE POSITION -->
+            <div class="p-4 rounded-2xl bg-phantom-bg border border-phantom-purple/15 space-y-3">
+              <div class="flex justify-between items-center">
+                <span class="text-xs font-semibold text-white">Active Delegation</span>
+                <span class="text-xs text-phantom-accent font-bold mono">7.62% APY</span>
+              </div>
+              <div class="flex justify-between items-center text-xs text-phantom-muted">
+                <span>Validator</span>
+                <span class="text-white font-medium">Shinobi Systems (0% fee)</span>
+              </div>
+              <div class="flex justify-between items-center text-xs text-phantom-muted">
+                <span>Decentralization Score</span>
+                <span class="text-emerald-400 font-bold">98/100 (Exempt from Superminority)</span>
+              </div>
+              <div class="flex justify-between items-center text-xs text-phantom-muted">
+                <span>Total Staked</span>
+                <span class="text-white font-bold mono">25.000 SOL (~$3,875 USD)</span>
+              </div>
+            </div>
+
+            <button class="w-full py-3.5 rounded-2xl bg-phantom-purple hover:bg-phantom-purpleDark text-phantom-bg font-bold text-sm shadow-xl transition">
+              Manage / Split Stake
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- COMPARISON SLIDER & EVALUATION CRITERIA TABLE -->
+    <section class="mt-16 pt-12 border-t border-phantom-card space-y-8">
+      <div class="text-center max-w-2xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-2">Superteam Evaluation Rubric Alignment</h2>
+        <p class="text-xs text-phantom-muted">How this proposal systematically satisfies all 4 judging dimensions.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="p-5 rounded-2xl glass border-t-2 border-t-phantom-accent space-y-2">
+          <p class="text-xs font-bold text-phantom-accent uppercase">1. Solves Real Problem?</p>
+          <p class="text-sm font-bold text-white">Eliminates Bridge & Scam Panic</p>
+          <p class="text-xs text-phantom-muted">Removes intermediate bridge black-box states and burns phishing drainers to reclaim native SOL rent.</p>
+        </div>
+
+        <div class="p-5 rounded-2xl glass border-t-2 border-t-phantom-purple space-y-2">
+          <p class="text-xs font-bold text-phantom-purple uppercase">2. Clear Design Rationale?</p>
+          <p class="text-sm font-bold text-white">3-Stage Visual Pipeline</p>
+          <p class="text-xs text-phantom-muted">Every button and status indicator directly maps to user feedback loops and transparent cryptographic proofs.</p>
+        </div>
+
+        <div class="p-5 rounded-2xl glass border-t-2 border-t-emerald-400 space-y-2">
+          <p class="text-xs font-bold text-emerald-400 uppercase">3. Polished & Cohesive?</p>
+          <p class="text-sm font-bold text-white">Native Solana Design Tokens</p>
+          <p class="text-xs text-phantom-muted">Tailwind CSS, Plus Jakarta Sans, and true dark mode palette consistent with Phantom's brand standards.</p>
+        </div>
+
+        <div class="p-5 rounded-2xl glass border-t-2 border-t-phantom-warning space-y-2">
+          <p class="text-xs font-bold text-phantom-warning uppercase">4. Intuitive for Beginners?</p>
+          <p class="text-sm font-bold text-white">Zero Technical Jargon</p>
+          <p class="text-xs text-phantom-muted">Replaces "RPC timeout" and "Mempool drop" with clear human language ("Refund in 1 click", "Spam burned").</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-phantom-surface glass py-6 text-center text-xs text-phantom-muted space-y-2">
+    <p>Crafted for the <strong>Superteam India Open Design Bounty</strong> ($1,500 USDC on Solana).</p>
+    <p class="mono text-[11px]">Payout Wallet (Phantom): <span class="text-phantom-accent">DJu5HbzGp3Up3jUkeYYwU5YfEQcBjvYxzgdm311E3Ka7</span></p>
+  </footer>
+
+  <script>
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('[id^="tab-"]').forEach(btn => {
+        btn.classList.remove('bg-phantom-card', 'text-white', 'border', 'border-phantom-purple/40', 'shadow-md');
+        btn.classList.add('text-phantom-muted');
+      });
+
+      document.getElementById('content-' + tab).classList.remove('hidden');
+      const activeBtn = document.getElementById('tab-' + tab);
+      activeBtn.classList.add('bg-phantom-card', 'text-white', 'border', 'border-phantom-purple/40', 'shadow-md');
+      activeBtn.classList.remove('text-phantom-muted');
+    }
+
+    function updateSwapOutput() {
+      const input = parseFloat(document.getElementById('swap-amount-in').value) || 0;
+      const rate = 0.006452; // Mock SOL/USD
+      document.getElementById('swap-amount-out').innerText = (input * rate).toFixed(4) + ' SOL';
+    }
+
+    function simulateSwapAction() {
+      const btn = document.getElementById('btn-swap-action');
+      const msg = document.getElementById('swap-status-message');
+      btn.innerText = 'Routing via Mayan & Jupiter...';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.innerText = 'Completed Successfully';
+        btn.classList.remove('from-phantom-purpleDark', 'to-phantom-purple');
+        btn.classList.add('bg-phantom-accent', 'text-phantom-bg');
+        msg.classList.remove('hidden');
+      }, 1200);
+    }
+
+    function burnSpamToken() {
+      const btn = document.getElementById('btn-burn-spam');
+      const fb = document.getElementById('burn-feedback');
+      btn.innerText = 'Burning...';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.innerText = 'Burned';
+        fb.classList.remove('hidden');
+      }, 800);
+    }
+  </script>
+</body>
+</html>
